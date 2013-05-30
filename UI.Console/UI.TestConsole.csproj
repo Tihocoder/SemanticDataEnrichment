@@ -70,6 +70,7 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="XMLtoRDFtest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -83,6 +84,12 @@
   <ItemGroup />
   <ItemGroup>
     <Content Include="schema.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestRdf.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestXml.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

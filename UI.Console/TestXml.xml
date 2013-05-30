@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root>
+  <facts>
+    <Company CompanyID="11" CompanyType="1" Prop1="111">
+      <CompanyName val="Яндекс"/>
+    </Company>
+    <Company CompanyID="12" CompanyType="2" Prop1="222">
+      <CompanyName val="Зряндекс"/>
+    </Company>
+    <User Prop1="333">
+      <UserID val="1"/>
+      <UserTitle val="Кто-то"/>
+    </User>
+  </facts>
+</root>

@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!DOCTYPE rdf:RDF [
+  <!ENTITY schema "http://schema.org/" >
+  <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+  <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+  <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+  <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+]>
+<rdf:RDF xmlns="http://www.w3.org/2002/07/owl#"
+     xml:base="http://www.w3.org/2002/07/owl"
+     xmlns:schema="http://schema.org/"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+  
+  <Ontology rdf:about="http://topbraid.org/schema/">
+    <rdfs:label>Schema.org (converted to OWL by TopQuadrant)</rdfs:label>
+    <versionInfo rdf:datatype="&xsd;dateTime">2013-05-17T09:42:09.351+10:00</versionInfo>
+    <imports rdf:resource="http://www.w3.org/2002/07/owl#"/>
+  </Ontology>
+
+  <AnnotationProperty rdf:about="&schema;eligibleRegion">
+    <rdfs:label rdf:datatype="&xsd;string">eligible region</rdfs:label>
+    <rdfs:comment>The ISO 3166-1 (ISO 3166-1 alpha-2) or ISO 3166-2 code, or the GeoShape for the geo-political region(s) for which the offer or delivery charge specification is valid.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://topbraid.org/schema/#genid349"/>
+  </AnnotationProperty>
+  <AnnotationProperty rdf:about="&schema;domainIncludes">
+    <rdfs:label rdf:datatype="&xsd;string">domain includes</rdfs:label>
+    <rdfs:comment>Relates a property to a class that is (one of) the type(s) the property is expected to be used on.</rdfs:comment>
+    <rdfs:domain rdf:resource="&schema;Property"/>
+  </AnnotationProperty>
+  <AnnotationProperty rdf:about="&schema;rangeIncludes">
+    <rdfs:label rdf:datatype="&xsd;string">range includes</rdfs:label>
+    <rdfs:comment>Relates a property to a class that constitutes (one of) the expected type(s) for values of the property.</rdfs:comment>
+    <rdfs:domain rdf:resource="&schema;Property"/>
+  </AnnotationProperty>
+  <AnnotationProperty rdf:about="&schema;citation">
+    <rdfs:label rdf:datatype="&xsd;string">citation</rdfs:label>
+    <rdfs:comment>A citation or reference to another creative work, such as another publication, web page, scholarly article, etc. NOTE: Candidate for promotion to ScholarlyArticle.</rdfs:comment>
+    <rdfs:domain rdf:resource="&schema;MedicalScholarlyArticle"/>
+  </AnnotationProperty>
+  <AnnotationProperty rdf:about="&schema;model">
+    <rdfs:label rdf:datatype="&xsd;string">model</rdfs:label>
+    <rdfs:comment>The model of the product. Use with the URL of a ProductModel or a textual representation of the model identifier. The URL of the ProductModel can be from an external source. It is recommended to additionally provide strong product identifiers via the gtin8/gtin13/gtin14 and mpn properties.</rdfs:comment>
+    <rdfs:domain rdf:resource="&schema;Product"/>
+  </AnnotationProperty>
+  <AnnotationProperty rdf:about="&schema;category">
+    <rdfs:label rdf:datatype="&xsd;string">category</rdfs:label>
+    <rdfs:comment>A category for the item. Greater signs or slashes can be used to informally indicate a category hierarchy.</rdfs:comment>
+    <rdfs:domain rdf:resource="http://topbraid.org/schema/#genid357"/>
+  </AnnotationProperty>
+
+  <DatatypeProperty rdf:about="&schema;CompanyID">
+    <rdfs:domain rdf:resource="&schema;Company"/>
+    <rdfs:range rdf:resource="&xsd;int"/>
+  </DatatypeProperty>
+
+  <DatatypeProperty rdf:about="&schema;CompanyType">
+    <rdfs:domain rdf:resource="&schema;Company"/>
+    <rdfs:range rdf:resource="&xsd;int"/>
+  </DatatypeProperty>
+
+  <DatatypeProperty rdf:about="&schema;Prop1">
+    <rdfs:domain rdf:resource="&schema;Company"/>
+    <rdfs:domain rdf:resource="&schema;User"/>
+    <rdfs:range rdf:resource="&xsd;int"/>
+  </DatatypeProperty>
+
+  <DatatypeProperty rdf:about="&schema;CompanyName">
+    <rdfs:domain rdf:resource="&schema;Company"/>
+    <rdfs:range rdf:resource="&xsd;string"/>
+  </DatatypeProperty>
+
+  <DatatypeProperty rdf:about="&schema;UserID">
+    <rdfs:domain rdf:resource="&schema;User"/>
+    <rdfs:range rdf:resource="&xsd;int"/>
+  </DatatypeProperty>
+
+  <DatatypeProperty rdf:about="&schema;UserTitle">
+    <rdfs:domain rdf:resource="&schema;User"/>
+    <rdfs:range rdf:resource="&xsd;string"/>
+  </DatatypeProperty>
+
+  <Class rdf:about="&schema;Company">
+  </Class>
+
+  <Class rdf:about="&schema;User">
+  </Class>
+
+</rdf:RDF>
