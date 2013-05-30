@@ -1,0 +1,154 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlackBoxConsole", "BlackBoxConsole\BlackBoxConsole.csproj", "{1F3DDCAB-2E30-4679-94A6-3EFC5C00873F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{D0ACDDD8-0F93-4CAE-8DEA-6DD7413C6ACE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UI.TestConsole", "UI.Console\UI.TestConsole.csproj", "{55D4975E-3C90-427E-A1EE-1B8009188A66}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tomita", "Tomita", "{0AB5A576-4993-487A-80CA-6E46DA9BE443}"
+	ProjectSection(SolutionItems) = preProject
+		Librares\Tomita\mydic.gzt = Librares\Tomita\mydic.gzt
+		Librares\Tomita\tomitaparser.exe = Librares\Tomita\tomitaparser.exe
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UI.Wpf", "UI.Wpf\UI.Wpf.csproj", "{FE316EE7-724B-42F9-B545-9AD04D12F977}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Librares", "Librares", "{73D5506B-BE0E-40FD-BBA1-BC6C9B2856E9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Protobuf-net", "Protobuf-net", "{BFBFA5B6-D858-4C29-834B-E09B48441960}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CoreOnly", "CoreOnly", "{13EEB77F-CAC4-43ED-A891-4DDEC2C31931}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "net30", "net30", "{E594E3D2-3AC3-4B99-A74A-9712416D25AD}"
+	ProjectSection(SolutionItems) = preProject
+		Librares\Protobuf-net\CoreOnly\net30\protobuf-net.dll = Librares\Protobuf-net\CoreOnly\net30\protobuf-net.dll
+		Librares\Protobuf-net\CoreOnly\net30\protobuf-net.pdb = Librares\Protobuf-net\CoreOnly\net30\protobuf-net.pdb
+		Librares\Protobuf-net\CoreOnly\net30\protobuf-net.xml = Librares\Protobuf-net\CoreOnly\net30\protobuf-net.xml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Full", "Full", "{34C8CC8C-23AA-44CE-B982-2637A862FC51}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "net30", "net30", "{D52C6AA6-2963-472B-8A62-6A0A69E05F53}"
+	ProjectSection(SolutionItems) = preProject
+		Librares\Protobuf-net\Full\net30\protobuf-net.dll = Librares\Protobuf-net\Full\net30\protobuf-net.dll
+		Librares\Protobuf-net\Full\net30\protobuf-net.pdb = Librares\Protobuf-net\Full\net30\protobuf-net.pdb
+		Librares\Protobuf-net\Full\net30\protobuf-net.xml = Librares\Protobuf-net\Full\net30\protobuf-net.xml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dotNetRDF", "dotNetRDF", "{68F7F790-EBA9-49FE-A746-F4B3BA8A5C75}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{F7A9A3DA-7251-45CB-8F6F-5BA3886A5BA6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "net40", "net40", "{64F3E965-B7D2-4784-8523-1A9E9B57AB1C}"
+	ProjectSection(SolutionItems) = preProject
+		Librares\dotNetRDF\Core\net40\dotNetRDF.dll = Librares\dotNetRDF\Core\net40\dotNetRDF.dll
+		Librares\dotNetRDF\Core\net40\dotNetRDF.pdb = Librares\dotNetRDF\Core\net40\dotNetRDF.pdb
+		Librares\dotNetRDF\Core\net40\dotNetRDF.xml = Librares\dotNetRDF\Core\net40\dotNetRDF.xml
+		Librares\dotNetRDF\Core\net40\HtmlAgilityPack.dll = Librares\dotNetRDF\Core\net40\HtmlAgilityPack.dll
+		Librares\dotNetRDF\Core\net40\Newtonsoft.Json.dll = Librares\dotNetRDF\Core\net40\Newtonsoft.Json.dll
+		Librares\dotNetRDF\Core\net40\VDS.Common.dll = Librares\dotNetRDF\Core\net40\VDS.Common.dll
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{45880EA1-0F33-4D79-A402-9547B7844D8D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Query", "Query", "{7FA0AB4A-3A59-4E36-8C51-F1426CB7DD69}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Virtuoso", "Virtuoso", "{9A7D6CF2-9A76-4445-8393-3D13800F27B5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FullText", "FullText", "{1B19F1A3-9EAC-471D-846C-AECB7F39A129}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "net40", "net40", "{C2B1E1BC-F2CD-436B-9181-B6F65D18EBAD}"
+	ProjectSection(SolutionItems) = preProject
+		Librares\dotNetRDF\Query\FullText\net40\dotNetRDF.Query.FullText.dll = Librares\dotNetRDF\Query\FullText\net40\dotNetRDF.Query.FullText.dll
+		Librares\dotNetRDF\Query\FullText\net40\dotNetRDF.Query.FullText.pdb = Librares\dotNetRDF\Query\FullText\net40\dotNetRDF.Query.FullText.pdb
+		Librares\dotNetRDF\Query\FullText\net40\dotNetRDF.Query.FullText.xml = Librares\dotNetRDF\Query\FullText\net40\dotNetRDF.Query.FullText.xml
+		Librares\dotNetRDF\Query\FullText\net40\Lucene.Net.dll = Librares\dotNetRDF\Query\FullText\net40\Lucene.Net.dll
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "net40", "net40", "{770D3ACC-50BF-4031-A6F9-B46AF01EFCA3}"
+	ProjectSection(SolutionItems) = preProject
+		Librares\dotNetRDF\Data\Virtuoso\net40\dotNetRDF.Data.Virtuoso.dll = Librares\dotNetRDF\Data\Virtuoso\net40\dotNetRDF.Data.Virtuoso.dll
+		Librares\dotNetRDF\Data\Virtuoso\net40\dotNetRDF.Data.Virtuoso.pdb = Librares\dotNetRDF\Data\Virtuoso\net40\dotNetRDF.Data.Virtuoso.pdb
+		Librares\dotNetRDF\Data\Virtuoso\net40\dotNetRDF.Data.Virtuoso.xml = Librares\dotNetRDF\Data\Virtuoso\net40\dotNetRDF.Data.Virtuoso.xml
+		Librares\dotNetRDF\Data\Virtuoso\net40\OpenLink.Data.Virtuoso.dll = Librares\dotNetRDF\Data\Virtuoso\net40\OpenLink.Data.Virtuoso.dll
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{2174A21A-CC63-4C49-AC66-C40035781080}"
+	ProjectSection(SolutionItems) = preProject
+		Common\config.proto = Common\config.proto
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|Mixed Platforms = Debug|Mixed Platforms
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|Mixed Platforms = Release|Mixed Platforms
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1F3DDCAB-2E30-4679-94A6-3EFC5C00873F}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{1F3DDCAB-2E30-4679-94A6-3EFC5C00873F}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{1F3DDCAB-2E30-4679-94A6-3EFC5C00873F}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{1F3DDCAB-2E30-4679-94A6-3EFC5C00873F}.Debug|x86.ActiveCfg = Debug|x86
+		{1F3DDCAB-2E30-4679-94A6-3EFC5C00873F}.Debug|x86.Build.0 = Debug|x86
+		{1F3DDCAB-2E30-4679-94A6-3EFC5C00873F}.Release|Any CPU.ActiveCfg = Release|x86
+		{1F3DDCAB-2E30-4679-94A6-3EFC5C00873F}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{1F3DDCAB-2E30-4679-94A6-3EFC5C00873F}.Release|Mixed Platforms.Build.0 = Release|x86
+		{1F3DDCAB-2E30-4679-94A6-3EFC5C00873F}.Release|x86.ActiveCfg = Release|x86
+		{1F3DDCAB-2E30-4679-94A6-3EFC5C00873F}.Release|x86.Build.0 = Release|x86
+		{D0ACDDD8-0F93-4CAE-8DEA-6DD7413C6ACE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0ACDDD8-0F93-4CAE-8DEA-6DD7413C6ACE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0ACDDD8-0F93-4CAE-8DEA-6DD7413C6ACE}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{D0ACDDD8-0F93-4CAE-8DEA-6DD7413C6ACE}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{D0ACDDD8-0F93-4CAE-8DEA-6DD7413C6ACE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D0ACDDD8-0F93-4CAE-8DEA-6DD7413C6ACE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0ACDDD8-0F93-4CAE-8DEA-6DD7413C6ACE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0ACDDD8-0F93-4CAE-8DEA-6DD7413C6ACE}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{D0ACDDD8-0F93-4CAE-8DEA-6DD7413C6ACE}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{D0ACDDD8-0F93-4CAE-8DEA-6DD7413C6ACE}.Release|x86.ActiveCfg = Release|Any CPU
+		{55D4975E-3C90-427E-A1EE-1B8009188A66}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{55D4975E-3C90-427E-A1EE-1B8009188A66}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{55D4975E-3C90-427E-A1EE-1B8009188A66}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{55D4975E-3C90-427E-A1EE-1B8009188A66}.Debug|x86.ActiveCfg = Debug|x86
+		{55D4975E-3C90-427E-A1EE-1B8009188A66}.Debug|x86.Build.0 = Debug|x86
+		{55D4975E-3C90-427E-A1EE-1B8009188A66}.Release|Any CPU.ActiveCfg = Release|x86
+		{55D4975E-3C90-427E-A1EE-1B8009188A66}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{55D4975E-3C90-427E-A1EE-1B8009188A66}.Release|Mixed Platforms.Build.0 = Release|x86
+		{55D4975E-3C90-427E-A1EE-1B8009188A66}.Release|x86.ActiveCfg = Release|x86
+		{55D4975E-3C90-427E-A1EE-1B8009188A66}.Release|x86.Build.0 = Release|x86
+		{FE316EE7-724B-42F9-B545-9AD04D12F977}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{FE316EE7-724B-42F9-B545-9AD04D12F977}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{FE316EE7-724B-42F9-B545-9AD04D12F977}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{FE316EE7-724B-42F9-B545-9AD04D12F977}.Debug|x86.ActiveCfg = Debug|x86
+		{FE316EE7-724B-42F9-B545-9AD04D12F977}.Debug|x86.Build.0 = Debug|x86
+		{FE316EE7-724B-42F9-B545-9AD04D12F977}.Release|Any CPU.ActiveCfg = Release|x86
+		{FE316EE7-724B-42F9-B545-9AD04D12F977}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{FE316EE7-724B-42F9-B545-9AD04D12F977}.Release|Mixed Platforms.Build.0 = Release|x86
+		{FE316EE7-724B-42F9-B545-9AD04D12F977}.Release|x86.ActiveCfg = Release|x86
+		{FE316EE7-724B-42F9-B545-9AD04D12F977}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{0AB5A576-4993-487A-80CA-6E46DA9BE443} = {73D5506B-BE0E-40FD-BBA1-BC6C9B2856E9}
+		{BFBFA5B6-D858-4C29-834B-E09B48441960} = {73D5506B-BE0E-40FD-BBA1-BC6C9B2856E9}
+		{68F7F790-EBA9-49FE-A746-F4B3BA8A5C75} = {73D5506B-BE0E-40FD-BBA1-BC6C9B2856E9}
+		{13EEB77F-CAC4-43ED-A891-4DDEC2C31931} = {BFBFA5B6-D858-4C29-834B-E09B48441960}
+		{34C8CC8C-23AA-44CE-B982-2637A862FC51} = {BFBFA5B6-D858-4C29-834B-E09B48441960}
+		{E594E3D2-3AC3-4B99-A74A-9712416D25AD} = {13EEB77F-CAC4-43ED-A891-4DDEC2C31931}
+		{D52C6AA6-2963-472B-8A62-6A0A69E05F53} = {34C8CC8C-23AA-44CE-B982-2637A862FC51}
+		{F7A9A3DA-7251-45CB-8F6F-5BA3886A5BA6} = {68F7F790-EBA9-49FE-A746-F4B3BA8A5C75}
+		{45880EA1-0F33-4D79-A402-9547B7844D8D} = {68F7F790-EBA9-49FE-A746-F4B3BA8A5C75}
+		{7FA0AB4A-3A59-4E36-8C51-F1426CB7DD69} = {68F7F790-EBA9-49FE-A746-F4B3BA8A5C75}
+		{64F3E965-B7D2-4784-8523-1A9E9B57AB1C} = {F7A9A3DA-7251-45CB-8F6F-5BA3886A5BA6}
+		{9A7D6CF2-9A76-4445-8393-3D13800F27B5} = {45880EA1-0F33-4D79-A402-9547B7844D8D}
+		{1B19F1A3-9EAC-471D-846C-AECB7F39A129} = {7FA0AB4A-3A59-4E36-8C51-F1426CB7DD69}
+		{770D3ACC-50BF-4031-A6F9-B46AF01EFCA3} = {9A7D6CF2-9A76-4445-8393-3D13800F27B5}
+		{C2B1E1BC-F2CD-436B-9181-B6F65D18EBAD} = {1B19F1A3-9EAC-471D-846C-AECB7F39A129}
+	EndGlobalSection
+EndGlobal

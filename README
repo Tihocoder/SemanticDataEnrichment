@@ -1,0 +1,15 @@
+–азбор текста и наполнение его семантическими тегами.
+
+¬ данном проекте используютс€:
+“омита-парсер ( http://api.yandex.ru/tomita )
+dotNetRDF ( https://bitbucket.org/dotnetrdf/dotnetrdf )
+Protobuf-net ( http://code.google.com/p/protobuf-net/ )
+
+—остав:
+Core - основна€ логика программы
+UI.Wpf - пользовательский интерфейс
+UI.Console - тестовый консольный UI. »спользуетс€ дл€ отработки отдельных компанентов или всей логики в целом.
+BlackBoxConsole - консоль дл€ генерации xml данных дл€ тестов
+
+Librares - сторонние библиотеки
+Common - дополнительные файлы
