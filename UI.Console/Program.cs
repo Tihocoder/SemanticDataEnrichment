@@ -20,7 +20,8 @@ namespace SemanticDataEnrichment.UI.TestConsole
 
 		static void Main(string[] args)
 		{
-			TestRDF();
+			TestProto();
+			//TestRDF();
 			//Encoding
 			//ConfigViewModel config = new ConfigViewModel();
 			//config.Test();
@@ -83,6 +84,25 @@ namespace SemanticDataEnrichment.UI.TestConsole
 
 
 
+		}
+
+		static void TestProto()
+		{
+			TTextMinerConfig config = new TTextMinerConfig() { PrettyOutput = "qwert.html", Output = new TTextMinerConfig.TOutputParams() { File = "asdf.xml", Format = TTextMinerConfig.TOutputParams.OutputFormat.xml } };
+
+			using (var file = File.Create("test.proto"))
+			{
+				//ProtoBuf.Serializer.Serialize(file, config);
+				//ProtoBuf.Serializer.SerializeWithLengthPrefix(file, config, ProtoBuf.PrefixStyle.Base128);
+				//ProtoBuf.Serializer.Serialize(new Seriali
+			}
+
+			TTextMinerConfig config2;
+			using (var file = new FileStream("test.proto", FileMode.Open))
+			{
+				//file.SetLength(file.Length);
+				config2 = ProtoBuf.Serializer.Deserialize<TTextMinerConfig>(file);
+			}
 		}
 	}
 }

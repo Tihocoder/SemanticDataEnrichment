@@ -56,6 +56,9 @@
     <Reference Include="OpenLink.Data.Virtuoso">
       <HintPath>..\Librares\dotNetRDF\Data\Virtuoso\net40\OpenLink.Data.Virtuoso.dll</HintPath>
     </Reference>
+    <Reference Include="protobuf-net">
+      <HintPath>..\Librares\Protobuf-net\Full\net30\protobuf-net.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -70,8 +73,14 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TTextMinerConfig.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\Common\config.proto">
+      <Link>config.proto</Link>
+      <Generator>ProtoBufTool</Generator>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
