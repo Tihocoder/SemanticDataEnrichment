@@ -20,6 +20,9 @@ namespace SemanticDataEnrichment.UI.TestConsole
 
 		static void Main(string[] args)
 		{
+			//TestRDF();
+            new XMLtoRDFtest().ReadXML("TestXml.xml");
+            new XMLtoRDFtest().ReadRDL("TestRdf.xml");
 			TestProto();
 			//TestRDF();
 			//Encoding
