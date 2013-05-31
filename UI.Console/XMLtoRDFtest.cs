@@ -6,6 +6,7 @@ using System.Text;
 using System.Xml.Linq;
 using VDS.RDF;
 using VDS.RDF.Parsing;
+using VDS.RDF.Writing;
 
 namespace SemanticDataEnrichment.UI.TestConsole
 {
@@ -40,8 +41,30 @@ namespace SemanticDataEnrichment.UI.TestConsole
         public void ReadRDL(string fileName)
         {
             IGraph g = new Graph();
-            RdfXmlParser fileParser = new RdfXmlParser();
-            fileParser.Load(g, fileName);
+
+			//IUriNode dotNetRDF = g.CreateUriNode(UriFactory.Create("http://www.dotnetrdf.org"));
+			//IUriNode says = g.CreateUriNode(UriFactory.Create("http://example.org/says"));
+			//ILiteralNode helloWorld = g.CreateLiteralNode("Hello World");
+			//ILiteralNode bonjourMonde = g.CreateLiteralNode("Bonjour tout le Monde", "fr");
+
+			//g.Assert(new Triple(dotNetRDF, says, helloWorld));
+			//g.Assert(new Triple(dotNetRDF, says, bonjourMonde));
+
+			//foreach (Triple t in g.Triples)
+			//{
+			//    Console.WriteLine(t.ToString());
+			//}
+
+			//NTriplesWriter ntwriter = new NTriplesWriter();
+			//ntwriter.Save(g, "HelloWorld.nt");
+
+			//RdfXmlWriter rdfxmlwriter = new RdfXmlWriter();
+			//rdfxmlwriter.Save(g, "HelloWorld.rdf");
+
+			RdfXmlParser fileParser = new RdfXmlParser();
+			fileParser.Load(g, fileName);
+
+			VDS.RDF.Nam 
         }
     }
 
