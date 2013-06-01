@@ -41,13 +41,13 @@
 				<TextBox VerticalScrollBarVisibility="Visible" Text="{Binding Path=ConsoleOutput, Mode=OneWay}" IsReadOnly="True" TextWrapping="Wrap" AcceptsReturn="True" />
 			</TabItem>
 			<TabItem Header="Выходной текст">
-				<TextBox VerticalScrollBarVisibility="Visible" Text="{Binding Path=ProcessedTextData, Mode=OneWay}" IsReadOnly="True" TextWrapping="Wrap" AcceptsReturn="True" />
+				<TextBox VerticalScrollBarVisibility="Visible" IsReadOnly="True" TextWrapping="Wrap" AcceptsReturn="True" Text="{Binding ProcessedXmlData, Mode=OneWay}" />
 			</TabItem>
             <TabItem Header="Форматированный вывод">
 				<WebBrowser Name="WebBr"/>
 			</TabItem>
             <TabItem Header="Конвертированный RDF">
-				<TextBox VerticalScrollBarVisibility="Visible" Text="{Binding Path=ProcessedRdfData, Mode=OneWay}" IsReadOnly="True" TextWrapping="Wrap" AcceptsReturn="True" />
+				<TextBox VerticalScrollBarVisibility="Visible" IsReadOnly="True" TextWrapping="Wrap" AcceptsReturn="True" Text="{Binding ProcessedRdfData, Mode=OneWay}" />
             </TabItem>
         </TabControl>
 		<StackPanel Grid.Column="1" Grid.RowSpan="10" Margin="5,10,5,5">

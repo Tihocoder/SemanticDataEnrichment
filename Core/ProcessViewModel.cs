@@ -93,7 +93,7 @@ namespace SemanticDataEnrichment.Core
 			private set
 			{
 				this.processedXmlData = value;
-				OnPropertyChanged("ProcessedTextData");
+				OnPropertyChanged("ProcessedXmlData");
 			}
 		}
 
@@ -107,7 +107,7 @@ namespace SemanticDataEnrichment.Core
             private set
             {
                 this.processedRdfData = value;
-                OnPropertyChanged("ProcessedRdf");
+				OnPropertyChanged("ProcessedRdfData");
             }
         }
 
