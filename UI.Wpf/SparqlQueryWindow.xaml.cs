@@ -38,7 +38,7 @@ namespace SemanticDataEnrichment.UI.Wpf
 		{
 			CurrentContext.AddRdfFile("FdoDS.rdf");
 			CurrentContext.AddRdfFile("output.rdf");
-			CurrentContext.AddRdfFile("schema.owl");
+			CurrentContext.AddRdfFile("schema.xml");
 		}
 
 		private void AddFileButton_Click(object sender, RoutedEventArgs e)
