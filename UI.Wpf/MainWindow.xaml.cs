@@ -74,7 +74,7 @@ namespace SemanticDataEnrichment.UI.Wpf
 			}
 			catch (Exception ex)
 			{
-				ShowError(ex.Message);
+				App.ShowError(ex);
 			}
 		}
 
@@ -92,7 +92,7 @@ namespace SemanticDataEnrichment.UI.Wpf
 				}
 				catch (Exception ex)
 				{
-					ShowError(ex.Message);
+					App.ShowError(ex);
 				}
 		}
 
@@ -118,7 +118,7 @@ namespace SemanticDataEnrichment.UI.Wpf
 			}
 			catch (Exception ex)
 			{
-				ShowError(ex.Message);
+				App.ShowError(ex);
 			}
 		}
 
@@ -130,6 +130,13 @@ namespace SemanticDataEnrichment.UI.Wpf
 		private void ClearOutputButton_Click(object sender, RoutedEventArgs e)
 		{
 			CurrentContext.ClearOutput();
+		}
+
+		private void QueriesButton_Click(object sender, RoutedEventArgs e)
+		{
+			SparqlQueryWindow queryWindow = new SparqlQueryWindow();
+			queryWindow.Owner = this;
+			queryWindow.Show();
 		}
 
 		private void ExitButton_Click(object sender, RoutedEventArgs e)
@@ -144,12 +151,6 @@ namespace SemanticDataEnrichment.UI.Wpf
 				&& MessageBox.Show("Закрыть прогармму?", "Выход", MessageBoxButton.YesNo, MessageBoxImage.Question) != MessageBoxResult.Yes)
 				e.Cancel = true;
 		}
-
-		private void ShowError(string message)
-		{
-			MessageBox.Show(message, "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
-		}
-
 	}
 }
 

@@ -1,0 +1,59 @@
+﻿<Window x:Class="SemanticDataEnrichment.UI.Wpf.SparqlQueryWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:local="clr-namespace:SemanticDataEnrichment.UI.Wpf"
+		xmlns:core="clr-namespace:SemanticDataEnrichment.Core;assembly=SemanticDataEnrichment.Core"
+		d:DataContext="{d:DesignInstance Type=core:RdfQueryViewModel}"
+        Title="Запросы к RDF-файлам" Height="768" Width="1024" WindowStartupLocation="CenterOwner" Closing="Window_Closing" ShowInTaskbar="False">
+    <Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*"/>
+			<RowDefinition Height="*"/>
+			<RowDefinition Height="2*"/>
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*"/>
+			<ColumnDefinition Width="200"/>
+		</Grid.ColumnDefinitions>
+		<GroupBox Header="Файлы для запроса:" Margin="5">
+			<ScrollViewer VerticalScrollBarVisibility="Auto">
+				<ItemsControl Margin="5" ItemsSource="{Binding FilesToQuery}">
+					<ItemsControl.ItemTemplate>
+						<DataTemplate>
+							<DockPanel Margin="5">
+								<Button Name="UnSelectFileButton" Content="Убрать" Margin="5" DockPanel.Dock="Right" Click="UnSelectFileButton_Click"/>
+								<Button Name="SelectFileButton" Content="Выбрать" Margin="5" DockPanel.Dock="Right" Click="SelectFileButton_Click"/>
+								<TextBox Text="{Binding Value, Mode=OneWay}" Margin="5"/>
+							</DockPanel>
+						</DataTemplate>
+					</ItemsControl.ItemTemplate>
+				</ItemsControl>
+				<!--<CollectionContainer Margin="5" Content="{Binding FilesToQuery}">
+					<ContentControl.ContentTemplate>
+						<DataTemplate>
+							<DockPanel Margin="5">
+								<Button Content="button"/>
+								<TextBox Text="ttttt"/>
+							</DockPanel>
+						</DataTemplate>
+					</ContentControl.ContentTemplate>
+				</CollectionContainer>-->
+			</ScrollViewer>
+		</GroupBox>
+		<GroupBox Grid.Column="0" Grid.Row="1" Header="Запрос" Margin="5">
+			<TextBox VerticalScrollBarVisibility="Visible" Text="{Binding SparqlQueryText}" TextWrapping="Wrap" AcceptsReturn="True" />
+		</GroupBox>
+		<GroupBox Grid.Column="0" Grid.Row="2" Header="Результат" Margin="5">
+			<TextBox VerticalScrollBarVisibility="Visible" Text="{Binding QueryResult, Mode=OneWay}" IsReadOnly="True" TextWrapping="Wrap" AcceptsReturn="True" />
+		</GroupBox>
+		<StackPanel Grid.Column="1" Grid.RowSpan="10" Margin="5,10,5,5">
+			<Button Name="AddFileButton" Content="Добавить файл" Padding="40,5" Margin="5,5,5,20" Click="AddFileButton_Click"/>
+			<Button Name="ExecuteButton" Content="Выполнить" Padding="50,5" Margin="5,5,5,20" Click="ExecuteButton_Click"/>
+		</StackPanel>
+		<StackPanel Grid.Column="1" Grid.RowSpan="10" Margin="5" VerticalAlignment="Bottom">
+			<Button Name="ExitButton" Content="Выход" Padding="50,5" Margin="5,20,5,5" Click="ExitButton_Click"/>
+		</StackPanel>
+	</Grid>
+</Window>

@@ -12,5 +12,9 @@ namespace SemanticDataEnrichment.UI.Wpf
 	/// </summary>
 	public partial class App : Application
 	{
+		public static void ShowError(Exception ex)
+		{
+			MessageBox.Show(ex.Message, "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
+		}
 	}
 }

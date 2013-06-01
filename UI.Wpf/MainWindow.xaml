@@ -20,7 +20,7 @@
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="*"/>
-			<ColumnDefinition Width="auto"/>
+			<ColumnDefinition Width="200"/>
 		</Grid.ColumnDefinitions>
 		<GroupBox Grid.Row="2" Header="Входной текст" Margin="5">
 			<Grid>
@@ -54,6 +54,7 @@
 			<Button Name="ProcessButton" Content="Обработать" Padding="50,5" Margin="5,5,5,20" Click="ProcessButton_Click" />
 			<Button Name="ClearInputButton" Content="Очистить ввод" Margin="5" Padding="30,5" Click="ClearInputButton_Click" />
 			<Button Name="ClearOutputButton" Content="Очистить вывод" Margin="5" Padding="30,5" Click="ClearOutputButton_Click" />
+			<Button Name="QueriesButton" Content="Запросы" Padding="50,5" Margin="5,20,5,5" Click="QueriesButton_Click" />
 		</StackPanel>
 		<StackPanel Grid.Column="1" Grid.RowSpan="10" Margin="5" VerticalAlignment="Bottom">
 			<StackPanel Grid.Row="6" HorizontalAlignment="Left" VerticalAlignment="Bottom" Orientation="Vertical">

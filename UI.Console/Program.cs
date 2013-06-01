@@ -20,19 +20,22 @@ namespace SemanticDataEnrichment.UI.TestConsole
 
 		static void Main(string[] args)
 		{
+			RdfQueryViewModel model = new RdfQueryViewModel();
+			Console.WriteLine(model.ExecuteQuery());
+
 			//TestRDF();
             //new XMLtoRDFtest().ReadXML("FdoDS.rdf");
             //new XMLtoRDFtest().ReadRDL("TestRdf.xml");
-            var xml = new XMLtoRDFtest().ConvertToRdf("TestXml.xml");
+            //var xml = new XMLtoRDFtest().ConvertToRdf("TestXml.xml");
             //string xml = new XMLtoRDFtest().ConvertToRdf("TestXml.xml").ToString();
             //using (FileStream f = new FileStream("output.txt", FileMode.Truncate))
             //{
             //    f.
             //}
             //File.WriteAllText("output.txt", xml);
-            xml.Save("_output.xml");
-            Console.WriteLine(xml);
-			TestProto();
+            //xml.Save("_output.xml");
+            //Console.WriteLine(xml);
+			//TestProto();
 			//TestRDF();
 			//Encoding
 			//ConfigViewModel config = new ConfigViewModel();
@@ -91,7 +94,7 @@ namespace SemanticDataEnrichment.UI.TestConsole
 //										PREFIX schema: <http://schema.org/>
 //										PREFIX fact:<http://www.co-ode.org/ontologies/ont.owl#>
 //										SELECT *
-//										WHERE { ?organization rdf:type fact:UniqueCompany");
+//										WHERE { ?organization rdf:type fact:UniqueCompany }");
 
 
 

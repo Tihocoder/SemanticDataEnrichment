@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlackBoxConsole", "BlackBoxConsole\BlackBoxConsole.csproj", "{1F3DDCAB-2E30-4679-94A6-3EFC5C00873F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{D0ACDDD8-0F93-4CAE-8DEA-6DD7413C6ACE}"
@@ -78,6 +78,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{2174A21A-CC63-4C49-AC66-C40035781080}"
 	ProjectSection(SolutionItems) = preProject
 		Common\config.proto = Common\config.proto
+		Common\FdoDS.rdf = Common\FdoDS.rdf
 	EndProjectSection
 EndProject
 Global
