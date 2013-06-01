@@ -67,7 +67,10 @@ namespace SemanticDataEnrichment.UI.Wpf
 		{
 			try
 			{
-				CurrentContext.OpenUrl();
+				using (new WaitCursor())
+				{
+					CurrentContext.OpenUrl();
+				}
 			}
 			catch (Exception ex)
 			{
@@ -82,7 +85,10 @@ namespace SemanticDataEnrichment.UI.Wpf
 			if (result.GetValueOrDefault() == true)
 				try
 				{
-					CurrentContext.OpenFile(dlg.FileName);
+					using (new WaitCursor())
+					{
+						CurrentContext.OpenFile(dlg.FileName);
+					}
 				}
 				catch (Exception ex)
 				{
@@ -94,18 +100,21 @@ namespace SemanticDataEnrichment.UI.Wpf
 		{
 			try
 			{
-				string prettyOutput = "Debug.html"; //TODO: в конфиг!
-				if (File.Exists(prettyOutput))
-					File.Delete(prettyOutput);
-				if (String.IsNullOrEmpty(CurrentContext.TextData) && !String.IsNullOrEmpty(CurrentContext.URL.ToLower().Replace("http:\\\\", "")))
-					CurrentContext.OpenUrl();
+				using (new WaitCursor())
+				{
+					string prettyOutput = "Debug.html"; //TODO: в конфиг!
+					if (File.Exists(prettyOutput))
+						File.Delete(prettyOutput);
+					if (String.IsNullOrEmpty(CurrentContext.TextData) && !String.IsNullOrEmpty(CurrentContext.URL.ToLower().Replace("http:\\\\", "")))
+						CurrentContext.OpenUrl();
 
-				CurrentContext.ProcessText();
+					CurrentContext.ProcessText();
 
-				if (File.Exists(prettyOutput))
-					WebBr.NavigateToString(File.ReadAllText(prettyOutput));
-				else
-					WebBr.Navigate("about:blank");
+					if (File.Exists(prettyOutput))
+						WebBr.NavigateToString(File.ReadAllText(prettyOutput));
+					else
+						WebBr.Navigate("about:blank");
+				}
 			}
 			catch (Exception ex)
 			{
