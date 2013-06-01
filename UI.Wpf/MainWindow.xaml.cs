@@ -24,16 +24,42 @@ namespace SemanticDataEnrichment.UI.Wpf
 		public MainWindow()
 		{
 			InitializeComponent();
-			this.DataContext = new ProcessViewModel("Tomita\\tomitaparser.exe", "facts.xml");
-			if (File.Exists("test.txt")) //TODO: Временно сюда
-				CurrentContext.OpenFile("test.txt");
+			string tmpFileName = "test.txt"; //TODO:Тут и далее - разобраться с параметрами и вынести в конфиг
+			this.DataContext = new ProcessViewModel("Tomita\\tomitaparser.exe", "Tomita\\config.proto", tmpFileName, "facts.xml", "output.rdf");
+			if (File.Exists(tmpFileName)) 
+				CurrentContext.OpenFile(tmpFileName);
 		}
 
+		/// <summary>
+		/// Акцессор для view model данного окна.
+		/// </summary>
 		public ProcessViewModel CurrentContext
 		{
 			get
 			{
 				return this.DataContext as ProcessViewModel;
+			}
+		}
+
+		/// <summary>
+		/// Версия данного интерфейса
+		/// </summary>
+		public Version CurrentUIVersion
+		{
+			get
+			{
+				return System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+			}
+		}
+
+		/// <summary>
+		/// Версия библиотеки с логикой
+		/// </summary>
+		public Version CurrentCoreVersion
+		{
+			get
+			{
+				return CurrentContext.GetCurrentVersion();
 			}
 		}
 
@@ -47,11 +73,6 @@ namespace SemanticDataEnrichment.UI.Wpf
 			{
 				ShowError(ex.Message);
 			}
-		}
-
-		private void ShowError(string message)
-		{
-			MessageBox.Show(message, "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
 		}
 
 		private void FileButton_Click(object sender, RoutedEventArgs e)
@@ -73,14 +94,18 @@ namespace SemanticDataEnrichment.UI.Wpf
 		{
 			try
 			{
+				string prettyOutput = "Debug.html"; //TODO: в конфиг!
+				if (File.Exists(prettyOutput))
+					File.Delete(prettyOutput);
 				if (String.IsNullOrEmpty(CurrentContext.TextData) && !String.IsNullOrEmpty(CurrentContext.URL.ToLower().Replace("http:\\\\", "")))
 					CurrentContext.OpenUrl();
+
 				CurrentContext.ProcessText();
-				if (File.Exists("Debug.html")) //TODO: в конфиг!
-				{
-					string html = File.ReadAllText("Debug.html");
-					WebBr.NavigateToString(html);
-				}
+
+				if (File.Exists(prettyOutput))
+					WebBr.NavigateToString(File.ReadAllText(prettyOutput));
+				else
+					WebBr.Navigate("about:blank");
 			}
 			catch (Exception ex)
 			{
@@ -106,25 +131,14 @@ namespace SemanticDataEnrichment.UI.Wpf
 		private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
 		{
 			if (CurrentContext != null
-				&& (!String.IsNullOrWhiteSpace(CurrentContext.ConsoleOutput) || !String.IsNullOrWhiteSpace(CurrentContext.ProcessedTextData))
+				&& (!String.IsNullOrWhiteSpace(CurrentContext.ConsoleOutput) || !String.IsNullOrWhiteSpace(CurrentContext.ProcessedXmlData) || !String.IsNullOrWhiteSpace(CurrentContext.ProcessedRdfData))
 				&& MessageBox.Show("Закрыть прогармму?", "Выход", MessageBoxButton.YesNo, MessageBoxImage.Question) != MessageBoxResult.Yes)
 				e.Cancel = true;
 		}
 
-		public Version CurrentUIVersion
+		private void ShowError(string message)
 		{
-			get
-			{
-				return System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
-			}
-		}
-
-		public Version CurrentCoreVersion
-		{
-			get
-			{
-				return CurrentContext.GetCurrentVersion();
-			}
+			MessageBox.Show(message, "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
 		}
 
 	}

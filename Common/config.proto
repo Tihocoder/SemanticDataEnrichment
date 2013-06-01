@@ -1,21 +1,59 @@
-encoding "utf8"; // указываем кодировку, в которой написан конфигурационный файл
+encoding "utf8";
 
 TTextMinerConfig {
-  Dictionary = "mydic.gzt"; // путь к корневому словарю
+  Dictionary = "articles.gzt ";       // корневой словарь газеттира
+
+  PrettyOutput = "debug.html";  // файл с отладочным выводом
   
-  PrettyOutput = "PrettyOutput.html"; // путь к файлу с отладочным выводом в удобном для чтения виде
+  PrintTree="tree.txt";
 
   Input = {
-    File = "test.txt"; // путь к входному файлу
+    File = "test.txt";          // файл с анализируемым текстом            
   }
 
   Articles = [
-    { Name = "наша_первая_грамматика" } // название статьи в корневом словаре,
-                                          // которая содержит запускаемую грамматику
+    { Name = "_компании_в_тексте" }     //запускать статью корневого словаря org
+    {Name="только_компании"}
+    //{Name="сит_компании"} //кажется, пока не нужно
+    //{Name="аббревиатуры"} //не работает
+    {Name="словарные_компании"}
+    {Name="_компания_в_ссылке"}
+    //{Name="контакт_ссылка"}
+    //{Name="контакт_урл"}
+    //{Name="о_компании_урл"}
+    {Name="фильтры_дата_основания_компании"}
+    {Name="плохое_кл_слово_компании_гс1"}
+    {Name="плохое_кл_слово_компании_гс2"}
+    {Name="плохое_кл_слово_компании"}
+    {Name="кл_слово_дочка_прил_сущ"}
+
   ]
 
-   Output = {
+  Facts = [
+    { Name = "CompanyDescr" } //описание компании
+    {Name="CompanyAbbrev"}       //аббревиатура компнаии
+    {Name="CompanyShortName"} //сокращенное имя компании
+    {Name="CompanyFoundDate"} //дата основания компании
+    {Name="Fdo"}
+    {Name="ShareCompany"}
+//    {Name="UniqueCompany"}
+    {Name="SitCompany"}
+    {Name="Tel"}
+    {Name="CompAnnot"}
+    {Name="KeywordsFact"}
+    {Name="Person"}
+    {Name="CompanyParts"}
+    {Name="OwnerCompany"}
+    {Name="PostCompany"}
+    {Name="AutoResponse"}
+    {Name="OnlyDate"}
+    {Name=""}
+
+  ]
+
+  Output = {
     File = "facts.xml";         // Записать факты в файл "facts.xml"
     Format = xml;              // используя при этом простой текстовый формат
   }
 }
+

@@ -9,39 +9,42 @@ using System.Text.RegularExpressions;
 using System.Text;
 
 namespace SemanticDataEnrichment.Core
-{//ejp73
-	public class ProcessViewModel : INotifyPropertyChanged
+{
+	/// <summary>
+	/// Модель-диспетчер, обеспечивающая логику работы с Томита-консолью
+	/// </summary>
+    public class ProcessViewModel : ViewModelBase
 	{
-		#region INotifyPropertyChanged
+		private string tomitaPath;
+		private string tomitaConfigPath;
+		private string tomitaOutputFileName;
+		private string tomitaInputFileName;
+		private string rdfOutputFileName;
 
-		public event PropertyChangedEventHandler PropertyChanged;
-		protected void OnPropertyChanged(string propName)
+		/// <summary>
+		/// Модель-диспетчер, обеспечивающая логику работы с Томита-консолью
+		/// </summary>
+		/// <param name="tomitaPath">Путь к томита-консоли</param>
+		/// <param name="tomitaConfigPath">Путь к фалу-конфигу томиты</param>
+		/// <param name="tomitaInputFileName">Имя для временного файла со входным текстом для томиты</param>
+		/// <param name="tomitaOutputFileName">Имя файла, возвращаемого томитой</param>
+		/// <param name="rdfOutputFileName">Имя файла для сохранения сконвертированных данных</param>
+		public ProcessViewModel(string tomitaPath, string tomitaConfigPath, string tomitaInputFileName, string tomitaOutputFileName, string rdfOutputFileName)
 		{
-			if (PropertyChanged != null)
-			{
-				PropertyChanged(this, new PropertyChangedEventArgs(propName));
-			}
-		}
-
-		#endregion
-
-		private string fileName;
-		private string url;
-		private string textData;
-		private string processedTextData;
-		private string workConsolePath;
-		private string consoleOutput;
-		private string outputConsoleFileName;
-
-		public ProcessViewModel(string workConsolePath, string outputConsoleFileName)
-		{
-			this.workConsolePath = workConsolePath;
-			this.outputConsoleFileName = outputConsoleFileName;
-			this.url = "http:\\\\";
+			this.tomitaPath = tomitaPath;
+			this.tomitaConfigPath = tomitaConfigPath;
+			this.tomitaOutputFileName = tomitaOutputFileName;
+			this.tomitaInputFileName = tomitaInputFileName;
+			this.rdfOutputFileName = rdfOutputFileName;
+			URL = "http:\\\\";
 		}
 
 		#region PublicProperties
 
+		private string fileName;
+		/// <summary>
+		/// Имя файла для загрузки данных в TextData
+		/// </summary>
 		public string FileName
 		{
 			get { return this.fileName; }
@@ -52,6 +55,10 @@ namespace SemanticDataEnrichment.Core
 			}
 		}
 
+		private string url;
+		/// <summary>
+		/// URL HTTP-протокола для загрузки данных в TextData
+		/// </summary>
 		public string URL
 		{
 			get { return this.url; }
@@ -62,7 +69,10 @@ namespace SemanticDataEnrichment.Core
 			}
 		}
 
-
+		private string textData;
+		/// <summary>
+		/// Данные для обработки консоли
+		/// </summary>
 		public string TextData
 		{
 			get { return this.textData; }
@@ -73,26 +83,38 @@ namespace SemanticDataEnrichment.Core
 			}
 		}
 
-		public string ProcessedTextData
+		private string processedXmlData;
+		/// <summary>
+		/// Обработанные тамитой данные (xml)
+		/// </summary>
+		public string ProcessedXmlData
 		{
-			get { return this.processedTextData; }
+			get { return this.processedXmlData; }
 			private set
 			{
-				this.processedTextData = value;
+				this.processedXmlData = value;
 				OnPropertyChanged("ProcessedTextData");
 			}
 		}
 
-		public string WorkConsolePath
-		{
-			get { return this.workConsolePath; }
-			set
-			{
-				this.workConsolePath = value;
-				OnPropertyChanged("WorkConsolePath");
-			}
-		}
+		private string processedRdfData;
+		/// <summary>
+		/// Сконвертированные в RDF обработанные томитой данные
+		/// </summary>
+        public string ProcessedRdfData
+        {
+            get { return this.processedRdfData; }
+            private set
+            {
+                this.processedRdfData = value;
+                OnPropertyChanged("ProcessedRdf");
+            }
+        }
 
+		private string consoleOutput;
+		/// <summary>
+		/// Дополнительная информация, возвращаемая томитой в ходе работы (в т.ч. ошибки)
+		/// </summary>
 		public string ConsoleOutput
 		{
 			get { return this.consoleOutput; }
@@ -106,7 +128,23 @@ namespace SemanticDataEnrichment.Core
 			}
 		}
 
+		private bool isBusy;
+		/// <summary>
+		/// Флаг, определяющий, что выполняется какая-либо работа
+		/// </summary>
+		public bool IsBusy
+		{
+			get { return this.isBusy; }
+			set
+			{
+				this.isBusy = value;
+				OnPropertyChanged("IsBusy");
+			}
+		}
+
 		#endregion
+
+		//TODO: корректно описать исключения у методов
 
 		#region PublicMethods
 
@@ -141,7 +179,15 @@ namespace SemanticDataEnrichment.Core
 			if (String.IsNullOrWhiteSpace(fileName))
 				throw new ArgumentNullException("FileName", "Не определно имя файла");
 
-			TextData = File.ReadAllText(fileName);
+			try
+			{
+				IsBusy = true;
+				TextData = File.ReadAllText(fileName);
+			}
+			finally
+			{
+				IsBusy = false;
+			}
 		}
 
 		/// <summary>
@@ -170,24 +216,35 @@ namespace SemanticDataEnrichment.Core
 		/// <exception cref="System.OutOfMemoryException"/>
 		public void OpenUrl(string url)
 		{
+
 			if (String.IsNullOrWhiteSpace(url))
 				throw new ArgumentNullException("URL", "Не определен URL");
-
-			WebRequest request = WebRequest.Create(url);
-			using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+			try
 			{
+				IsBusy = true;
+				WebRequest request = WebRequest.Create(url);
+				using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+				{
 
-				string responseText = (new StreamReader(response.GetResponseStream(), System.Text.Encoding.GetEncoding(response.CharacterSet))).ReadToEnd();
+					string responseText = (new StreamReader(response.GetResponseStream(), System.Text.Encoding.GetEncoding(response.CharacterSet))).ReadToEnd();
 
 
-				//stringstr = "<h1>Получить текст HTML C# отсюда</h1>";
-				//Regex reg = new Regex("<[^>]+>", RegexOptions.IgnoreCase);
-				//TextData = reg.Replace(responseText, "");
-				TextData = responseText;
-				
+					//stringstr = "<h1>Получить текст HTML C# отсюда</h1>";
+					//Regex reg = new Regex("<[^>]+>", RegexOptions.IgnoreCase);
+					//TextData = reg.Replace(responseText, "");
+					TextData = responseText;
+
+				}
+			}
+			finally
+			{
+				IsBusy = false;
 			}
 		}
 
+		/// <summary>
+		/// Обработать текст из TextData
+		/// </summary>
 		public void ProcessText()
 		{
 			ProcessText(this.textData);
@@ -203,24 +260,44 @@ namespace SemanticDataEnrichment.Core
 			if (String.IsNullOrWhiteSpace(textData))
 				throw new ArgumentNullException("TextData", "Не задан текст для обработки");
 
-			string inputFilePath = CreateTmpFile(textData);
-
-			string outputConsole = ProcessWorkConsole("Tomita\\config.proto");//TODO: Аргумент во вне
-			if (!String.IsNullOrWhiteSpace(outputConsole))
+			try
 			{
-				XElement xmlData = XElement.Parse(outputConsole);
+				IsBusy = true;
+				File.WriteAllText(this.tomitaInputFileName, textData);
+				if (File.Exists(this.tomitaOutputFileName))
+					File.Delete(this.tomitaOutputFileName);
+				if (File.Exists(this.rdfOutputFileName))
+					File.Delete(this.rdfOutputFileName);
 
-				ProcessXml(xmlData);
-				ProcessedTextData = xmlData.ToString();
+				ProcessTomitaConsole(this.tomitaConfigPath);
+
+				if (File.Exists(this.tomitaOutputFileName))
+				{
+					XmlRdfParser parser = new XmlRdfParser();
+					parser.ConvertXmlRdf(this.tomitaOutputFileName, this.rdfOutputFileName);
+					ProcessedXmlData = XmlRdfParser.GetFormattedStringFromXmlFile(this.tomitaOutputFileName);
+					ProcessedRdfData = XmlRdfParser.GetFormattedStringFromXmlFile(this.rdfOutputFileName);
+				}
+				else
+				{
+					ProcessedXmlData = String.Empty;
+					ProcessedRdfData = String.Empty;
+				}
 			}
-			else
-				ProcessedTextData = outputConsole;
+			finally
+			{
+				IsBusy = false;
+			}
 		}
 
+		/// <summary>
+		/// Очищает переменные вывода (ConsoleOutput, ProcessedXmlData, ProcessedRdfData)
+		/// </summary>
 		public void ClearOutput()
 		{
 			ConsoleOutput = String.Empty;
-			ProcessedTextData = String.Empty;
+			ProcessedXmlData = String.Empty;
+			ProcessedRdfData = String.Empty;
 		}
 
 		public Version GetCurrentVersion()
@@ -232,26 +309,15 @@ namespace SemanticDataEnrichment.Core
 
 		#region PrivateMethods
 
-		private string CreateTmpFile(string content)
+		private void ProcessTomitaConsole(string consoleArguments)
 		{
-			string filePath = "test.txt";//TODO: То же в конфиг
-			//string filePath = Path.GetTempFileName();
-			if (File.Exists(filePath)) 
-				File.Delete(filePath);
-			File.AppendAllText(filePath, content);
+			if (!File.Exists(this.tomitaPath))
+                throw new Exception(String.Format("Не найдена томита по пути {0}", this.tomitaPath));
 
-			//File f = File.Op
-			return filePath;
-		}
-
-		private string ProcessWorkConsole(string consoleArguments)
-		{
-			if (!File.Exists(this.workConsolePath))
-				throw new WorkConsloeException(String.Format("Не найдена консоль по пути {0}", this.workConsolePath));
 
 			using (Process workConsole = new Process()
 			{
-				StartInfo = new ProcessStartInfo(this.workConsolePath, consoleArguments)
+				StartInfo = new ProcessStartInfo(this.tomitaPath, consoleArguments)
 				{
 					UseShellExecute = false,
 					RedirectStandardOutput = true,
@@ -261,21 +327,12 @@ namespace SemanticDataEnrichment.Core
 				},
 			})
 			{
-				//workConsole.StartInfo.
 				if (workConsole.Start())
 				{
 					using (StreamReader consoleErrors = new StreamReader(workConsole.StandardError.BaseStream, Encoding.UTF8))
 					{
 						using (StreamReader consoleOutoput = new StreamReader(workConsole.StandardOutput.BaseStream, Encoding.UTF8))
 						{
-							//while (!workConsole.HasExited)
-							//{
-							//    //string errors = consoleErrors.ReadLine();
-							//    //if (!String.IsNullOrWhiteSpace(errors))
-							//        //throw new WorkConsloeException("Ошибка при обработке текста консолью", errors);
-							//    ConsoleOutput = ConsoleOutput + consoleOutoput.ReadLine();
-							//    workConsole.WaitForExit(100);
-							//}
 							string errors = consoleErrors.ReadToEnd();
 							ConsoleOutput = consoleOutoput.ReadToEnd();
 							ConsoleOutput += errors;
@@ -284,18 +341,9 @@ namespace SemanticDataEnrichment.Core
 					}
 				}
 				else
-					throw new WorkConsloeException("Не удалось инициализировать процесс консоли");
+					throw new Exception("Не удалось инициализировать процесс томиты");
 			}
-
-			if (File.Exists(this.outputConsoleFileName)) //TODO: Разобраться с выводом консоли
-				//    throw new WorkConsloeException(String.Format("Не удалось обнаружить файл с итогом работы косоли")); 
-				return File.ReadAllText(this.outputConsoleFileName);
-			else
-				return String.Empty;
 		}
-
-		private void ProcessXml(XElement xml)
-		{ }
 
 		#endregion
 	}

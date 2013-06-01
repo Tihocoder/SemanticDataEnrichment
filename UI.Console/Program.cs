@@ -21,8 +21,17 @@ namespace SemanticDataEnrichment.UI.TestConsole
 		static void Main(string[] args)
 		{
 			//TestRDF();
-            new XMLtoRDFtest().ReadXML("TestXml.xml");
-            new XMLtoRDFtest().ReadRDL("TestRdf.xml");
+            //new XMLtoRDFtest().ReadXML("FdoDS.rdf");
+            //new XMLtoRDFtest().ReadRDL("TestRdf.xml");
+            var xml = new XMLtoRDFtest().ConvertToRdf("TestXml.xml");
+            //string xml = new XMLtoRDFtest().ConvertToRdf("TestXml.xml").ToString();
+            //using (FileStream f = new FileStream("output.txt", FileMode.Truncate))
+            //{
+            //    f.
+            //}
+            //File.WriteAllText("output.txt", xml);
+            xml.Save("_output.xml");
+            Console.WriteLine(xml);
 			TestProto();
 			//TestRDF();
 			//Encoding

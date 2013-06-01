@@ -7,7 +7,10 @@
 		xmlns:core="clr-namespace:SemanticDataEnrichment.Core;assembly=SemanticDataEnrichment.Core"
 		d:DataContext="{d:DesignInstance Type=core:ProcessViewModel}"
         Title="Semantic Data Enrichment" Height="600" Width="800" Closing="Window_Closing" WindowState="Maximized">
-    <Grid>
+	<Window.Resources>
+		<BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+	</Window.Resources>
+	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="auto"/><!--TODO: лишние строки-->
 			<RowDefinition Height="auto"/>
@@ -40,16 +43,13 @@
 			<TabItem Header="Выходной текст">
 				<TextBox VerticalScrollBarVisibility="Visible" Text="{Binding Path=ProcessedTextData, Mode=OneWay}" IsReadOnly="True" TextWrapping="Wrap" AcceptsReturn="True" />
 			</TabItem>
-			<TabItem Header="Форматированный вывод">
+            <TabItem Header="Форматированный вывод">
 				<WebBrowser Name="WebBr"/>
 			</TabItem>
-		</TabControl>
-		<!--<GroupBox Grid.Row="4" Header="Ответ консоли" Margin="5" >
-			<TextBox VerticalScrollBarVisibility="Visible" Text="{Binding Path=ConsoleOutput, Mode=OneWay}" IsReadOnly="True" TextWrapping="Wrap"/>
-		</GroupBox>
-		<GroupBox Grid.Row="5" Header="Выходной текст" Margin="5">
-			<TextBox VerticalScrollBarVisibility="Visible" Text="{Binding Path=ProcessedTextData, Mode=OneWay}" IsReadOnly="True" TextWrapping="Wrap" />
-		</GroupBox>-->
+            <TabItem Header="Конвертированный RDF">
+				<TextBox VerticalScrollBarVisibility="Visible" Text="{Binding Path=ProcessedRdfData, Mode=OneWay}" IsReadOnly="True" TextWrapping="Wrap" AcceptsReturn="True" />
+            </TabItem>
+        </TabControl>
 		<StackPanel Grid.Column="1" Grid.RowSpan="10" Margin="5,10,5,5">
 			<Button Name="ProcessButton" Content="Обработать" Padding="50,5" Margin="5,5,5,20" Click="ProcessButton_Click" />
 			<Button Name="ClearInputButton" Content="Очистить ввод" Margin="5" Padding="30,5" Click="ClearInputButton_Click" />
@@ -64,6 +64,10 @@
 			</StackPanel>
 			<Button Name="ExitButton" Content="Выход" Padding="50,5" Margin="5,20,5,5" Click="ExitButton_Click" />
 		</StackPanel>
-		
+		<Border BorderBrush="Black" BorderThickness="1" Background="#80000000" Grid.RowSpan="10" Grid.ColumnSpan="2" Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" >
+			<Grid>
+				<TextBlock Margin="0" TextWrapping="Wrap" Text="Обработка..." HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24" FontWeight="Bold" Foreground="#7EFFFFFF"/>
+			</Grid>
+		</Border>
 	</Grid>
 </Window>

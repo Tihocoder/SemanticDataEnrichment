@@ -38,6 +38,58 @@ namespace SemanticDataEnrichment.UI.TestConsole
             return data;
         }
 
+        public XDocument ConvertToRdf(string fileName)
+        {
+            XNamespace rdf = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
+            XNamespace owl = "http://www.w3.org/2002/07/owl#";
+            XNamespace ont = "http://www.co-ode.org/ontologies/ont.owl#";
+
+            XElement root = new XElement(rdf + "RDF"
+                , new XAttribute(XNamespace.Xmlns + "rdf", rdf.NamespaceName)
+                , new XAttribute(XNamespace.Xmlns + "owl", owl.NamespaceName)
+                , new XAttribute(XNamespace.Xmlns + "ont", ont.NamespaceName)
+            );
+
+            string internalSubset = @"<!ENTITY mstns ""http://tempuri.org/FdoDS.xsd"" >
+<!ENTITY owl ""http://www.w3.org/2002/07/owl#"" >
+<!ENTITY xs ""http://www.w3.org/2001/XMLSchema"" >
+<!ENTITY xsd ""http://www.w3.org/2001/XMLSchema#"" >
+<!ENTITY msprop ""urn:schemas-microsoft-com:xml-msprop"" >
+<!ENTITY msdata ""urn:schemas-microsoft-com:xml-msdata"" >
+<!ENTITY rdfs ""http://www.w3.org/2000/01/rdf-schema#"" >
+<!ENTITY ont ""http://www.co-ode.org/ontologies/ont.owl#"" >
+<!ENTITY rdf ""http://www.w3.org/1999/02/22-rdf-syntax-ns#"" >";
+
+            XDocument outputRdf = new XDocument(new XDocumentType("rdf:RDF", null, null, internalSubset), root);
+
+            XElement xml = XElement.Parse(File.ReadAllText(fileName));
+            XElement facts = xml.Descendants("facts").FirstOrDefault();
+            if (facts == null)
+                return outputRdf;
+
+            foreach (XElement fact in facts.Elements())
+            {
+                XElement namedIndividual = new XElement(
+                        owl + "NamedIndividual"
+                    //, new XAttribute(rdf + "about",  "&" + root.GetPrefixOfNamespace(ont) + ";" + fact.Attribute("FactID").Value)
+                    //, new XElement(rdf + "type", new XAttribute(rdf + "resource", "&" + root.GetPrefixOfNamespace(ont) + ";" + fact.Name.LocalName))
+                        , new XAttribute(rdf + "about", ont.NamespaceName + fact.Attribute("FactID").Value)
+                        , new XElement(rdf + "type", new XAttribute(rdf + "resource", ont.NamespaceName + fact.Name.LocalName))
+                    );
+
+                foreach (XAttribute attrib in fact.Attributes())
+                    namedIndividual.Add(new XElement(ont + attrib.Name.LocalName, attrib.Value));
+                foreach (XElement prop in fact.Elements())
+                    namedIndividual.Add(new XElement(ont + prop.Name.LocalName, prop.Attribute("val").Value));
+
+                root.Add(namedIndividual);
+            }
+
+
+
+            return outputRdf;
+        }
+
         public void ReadRDL(string fileName)
         {
             IGraph g = new Graph();
@@ -64,7 +116,7 @@ namespace SemanticDataEnrichment.UI.TestConsole
 			RdfXmlParser fileParser = new RdfXmlParser();
 			fileParser.Load(g, fileName);
 
-			VDS.RDF.Nam 
+			//VDS.RDF.Nam 
         }
     }
 
