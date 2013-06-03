@@ -11,6 +11,7 @@ using VDS.RDF.Parsing;
 using VDS.RDF.Query;
 using VDS.RDF.Writing;
 using System.Xml.Linq;
+using System.Linq;
 
 
 namespace SemanticDataEnrichment.UI.TestConsole
@@ -25,7 +26,10 @@ namespace SemanticDataEnrichment.UI.TestConsole
 			//RdfQueryViewModel model = new RdfQueryViewModel();
 			//Console.WriteLine(model.ExecuteQuery());
 
-			TestRDF();
+			//TestRDF();
+
+			TestCount("FdoDS.rdf", "CompanyName");
+
             //new XMLtoRDFtest().ReadXML("FdoDS.rdf");
             //new XMLtoRDFtest().ReadRDL("TestRdf.xml");
             //var xml = new XMLtoRDFtest().ConvertToRdf("TestXml.xml");
@@ -139,6 +143,77 @@ namespace SemanticDataEnrichment.UI.TestConsole
 				//file.SetLength(file.Length);
 				config2 = ProtoBuf.Serializer.Deserialize<TTextMinerConfig>(file);
 			}
+		}
+
+		static void TestCount(string filename, string propertyName)
+		{
+			string propertyValue = String.Empty;
+			XNamespace owl = "http://www.w3.org/2002/07/owl#";
+			XNamespace ont = "http://www.co-ode.org/ontologies/ont.owl#";
+			XElement rdf = XElement.Parse(File.ReadAllText(filename));
+
+			//var my = rdf.Elements(owl + "NamedIndividual")
+			//	.Where(el => el.Elements().Select(par => par.Name.LocalName).Contains(propertyName))
+			//	.GroupBy(n => n.Element(ont + propertyName).Value)
+			//	.Select(o => new
+			//	{
+			//		PropertyValue = o.Key,
+			//		Count = o.Count(),
+			//		MinPos = o.Elements(ont + "pos")//.Min(r => int.Parse(r.Value))//.Select(p => int.Parse(p.Value)).Min()
+			//	});
+
+			//var my = rdf.Elements(owl + "NamedIndividual")
+			//	.Where(el => el.Elements().Select(par => par.Name.LocalName).Contains(propertyName))
+			//	.Select(m => new
+			//	{
+			//		PropertyValue = m.Element(ont + propertyName).Value,
+			//		Pos = int.Parse(m.Element(ont + "pos").Value)
+			//	})
+			//	.GroupBy(n => n.PropertyValue)
+			//	.Select(o => new
+			//	{
+			//		PropertyValue = o.Key,
+			//		Count = o.Count(),
+			//		MinPos = o.Min(p => p.Pos)
+			//	});
+
+			//if (my.Count() > 0)
+			//	propertyValue = my.Where(p => p.Count == my.Max(r => r.Count)).First().PropertyValue;
+
+
+			var my = rdf.Elements(owl + "NamedIndividual")
+				.Where(el => el.Elements().Select(par => par.Name.LocalName).Contains(propertyName) && el.Elements(ont + "pos").Any())
+				.GroupBy(n => n.Element(ont + propertyName).Value)
+				.Select(o => new
+				{
+					PropertyValue = o.Key,
+					Count = o.Count(),
+					MinPos = o.Min(p => int.Parse(p.Element(ont + "pos").Value))// o.Elements(ont + "pos")//.Select(p => int.Parse(p.Value)).Min()
+				})
+				.OrderByDescending(r => r.Count).ThenBy(e => e.MinPos).First().PropertyValue;
+
+			//var targetNamedIndividual = rdf.Elements(owl + "NamedIndividual")
+			//	.Where(el => el.Elements().Select(par => par.Name.LocalName).Contains(propertyName))
+			//	.Select(o => new
+			//	{
+			//		PropertyValue = o.Element(ont + propertyName).Value,
+			//		Pos = o.Element(ont + "pos")//int.Parse(o.Element(ont + "pos").Value)
+			//	});
+
+			//var byCount = targetNamedIndividual.GroupBy(n => n.PropertyValue)
+			//	.Select(o => new
+			//	{
+			//		PropertyValue = o.Key,
+			//		Count = o.Count(),
+			//		MinPos = o.Min(g => g.Pos)
+			//	});
+
+			//var byPos = targetNamedIndividual.GroupBy(n => n.Element(ont + propertyName).Value);
+
+			//var my =
+			//	from p in targetNamedIndividual
+			//	group p by p.Element(ont + propertyName).Value into r
+			//	select new { PropertyValue = r.Key, Count = r.Count(), MinPos = r.Elements(ont + "pos").Min(q => int.Parse(q.Value)) };
 		}
 	}
 }

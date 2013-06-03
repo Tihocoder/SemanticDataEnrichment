@@ -84,6 +84,7 @@
     </None>
     <None Include="..\Common\FdoDS.rdf">
       <Link>FdoDS.rdf</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="app.config" />
   </ItemGroup>
