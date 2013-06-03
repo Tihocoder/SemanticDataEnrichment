@@ -9,6 +9,8 @@ using System.Runtime.Serialization.Formatters.Binary;
 using VDS.RDF;
 using VDS.RDF.Parsing;
 using VDS.RDF.Query;
+using VDS.RDF.Writing;
+using System.Xml.Linq;
 
 
 namespace SemanticDataEnrichment.UI.TestConsole
@@ -20,10 +22,10 @@ namespace SemanticDataEnrichment.UI.TestConsole
 
 		static void Main(string[] args)
 		{
-			RdfQueryViewModel model = new RdfQueryViewModel();
-			Console.WriteLine(model.ExecuteQuery());
+			//RdfQueryViewModel model = new RdfQueryViewModel();
+			//Console.WriteLine(model.ExecuteQuery());
 
-			//TestRDF();
+			TestRDF();
             //new XMLtoRDFtest().ReadXML("FdoDS.rdf");
             //new XMLtoRDFtest().ReadRDL("TestRdf.xml");
             //var xml = new XMLtoRDFtest().ConvertToRdf("TestXml.xml");
@@ -67,12 +69,31 @@ namespace SemanticDataEnrichment.UI.TestConsole
 		{
 			IGraph g = new Graph();
 			RdfXmlParser fileParser = new RdfXmlParser();
-			fileParser.Load(g, "schema.xml");
+			//fileParser.Load(g, "schema.xml");
+			fileParser.Load(g, "TestRdf.xml");
 
 			//SparqlQueryParser queryParser = new SparqlQueryParser();
 			//queryParser.ParseFromString("SELECT * WHERE { ?s a ?type }");
+			//VDS.RDF.Writing.StringWriter.Write(g, new RdfXmlWriter())
+
+			StringBuilder div = new StringBuilder();
+
+			XElement rdf = XElement.Parse(VDS.RDF.Writing.StringWriter.Write(g, new RdfXmlWriter()));
+			foreach (XElement element in rdf.Elements())
+			{
+				div.AppendFormat("<div itemscope itemtype=\"{0}/{1}\">", element.Name.NamespaceName.TrimEnd('/'), element.Name.LocalName);
+				div.AppendLine();
+				foreach (XElement content in element.Elements())
+				{
+					div.AppendFormat("<meta itemprop=\"{0}\" content=\"{1}\">", content.Name.LocalName, content.Value);
+					div.AppendLine();
+				}
+				div.AppendLine("</div>");
+			}
 
 			var output = g.ExecuteQuery("SELECT * WHERE { ?s a ?type }");
+
+
 
 			 
 			SparqlParameterizedString query = new SparqlParameterizedString();
