@@ -6,6 +6,7 @@ using System.Text;
 using VDS.RDF;
 using VDS.RDF.Parsing;
 using VDS.RDF.Query;
+using VDS.RDF.Writing;
 
 namespace SemanticDataEnrichment.Core
 {
@@ -114,25 +115,34 @@ namespace SemanticDataEnrichment.Core
 
 				var resultSet = baseGraph.ExecuteQuery(sparqlCommandText);
 
-				if (!(resultSet is SparqlResultSet))
+				if (resultSet is SparqlResultSet)
+				{
+					SparqlResultSet outputSet = resultSet as SparqlResultSet;
+
+					if (outputSet.IsEmpty)
+						QueryResult = "Пустой результат";
+					else
+					{
+						StringBuilder outputString = new StringBuilder();
+						foreach (SparqlResult result in outputSet.Results)
+							outputString.AppendLine(result.ToString());
+
+						QueryResult = outputString.ToString();
+					}
+				}
+				else if (resultSet is Graph)
+				{
+					Graph resultGraph = resultSet as Graph;
+
+					if (resultGraph.IsEmpty)
+						QueryResult = "Пустой граф";
+					else
+						QueryResult = VDS.RDF.Writing.StringWriter.Write(resultGraph, new RdfXmlWriter());
+				}
+				else
 				{
 					QueryResult = string.Format("Неизвестный результат: {0}", resultSet.GetType());
-					return QueryResult;
 				}
-
-				SparqlResultSet outputSet = resultSet as SparqlResultSet;
-
-				if (outputSet.IsEmpty)
-				{
-					QueryResult = "Пустой результат";
-					return QueryResult;
-				}
-
-				StringBuilder outputString = new StringBuilder();
-				foreach (SparqlResult result in outputSet.Results)
-					outputString.AppendLine(result.ToString());
-
-				QueryResult = outputString.ToString();
 
 				return QueryResult;
 			}
