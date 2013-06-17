@@ -1,0 +1,28 @@
+﻿<UserControl x:Class="SemanticDataEnrichment.UI.Wpf.SemanticObjectUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
+			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 xmlns:local="clr-namespace:SemanticDataEnrichment.UI.Wpf"
+		 	 xmlns:semantic="clr-namespace:SemanticDataEnrichment.Core.SemanticElements;assembly=SemanticDataEnrichment.Core"
+			 d:DataContext="{d:DesignInstance Type=semantic:SemanticObject}" 
+             d:DesignHeight="300" d:DesignWidth="300">
+	<GroupBox>
+		<GroupBox.Header>
+			<StackPanel Orientation="Horizontal">
+				<TextBlock Text="{Binding Name, Mode=OneWay}" />
+				<Button Name="RemoveButton" Margin="5,0,0,0" Content="Удалить" Width="60" Click="RemoveButton_Click"/>
+			</StackPanel>
+		</GroupBox.Header>
+		<ItemsControl Margin="5" ItemsSource="{Binding Elements}" >
+			<ItemsControl.ItemTemplate>
+				<!--<DataTemplate DataType="semantic:SemanticObject">
+					<local:SemanticObjectUserControl DataContext="{Binding}"/>
+				</DataTemplate>-->
+				<DataTemplate DataType="semantic:SemanticProperty">
+					<local:SemanticPropertyUserControl DataContext="{Binding}" RemoveButtonClick="SemanticPropertyUserControl_RemoveButtonClick_1" />
+				</DataTemplate>
+			</ItemsControl.ItemTemplate>
+		</ItemsControl>
+	</GroupBox>
+</UserControl>

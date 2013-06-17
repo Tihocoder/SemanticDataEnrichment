@@ -30,16 +30,6 @@
 						</DataTemplate>
 					</ItemsControl.ItemTemplate>
 				</ItemsControl>
-				<!--<CollectionContainer Margin="5" Content="{Binding FilesToQuery}">
-					<ContentControl.ContentTemplate>
-						<DataTemplate>
-							<DockPanel Margin="5">
-								<Button Content="button"/>
-								<TextBox Text="ttttt"/>
-							</DockPanel>
-						</DataTemplate>
-					</ContentControl.ContentTemplate>
-				</CollectionContainer>-->
 			</ScrollViewer>
 		</GroupBox>
 		<GroupBox Grid.Column="0" Grid.Row="1" Header="Запрос" Margin="5">

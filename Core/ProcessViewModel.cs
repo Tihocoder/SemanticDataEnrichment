@@ -7,13 +7,17 @@ using System.Linq;
 using System.Xml.Linq;
 using System.Text.RegularExpressions;
 using System.Text;
+using SemanticDataEnrichment.Core.ModelComponents;
+using System.Collections.ObjectModel;
+using SemanticDataEnrichment.Core.SemanticElements;
+using System.Collections.Generic;
 
 namespace SemanticDataEnrichment.Core
 {
 	/// <summary>
 	/// Модель-диспетчер, обеспечивающая логику работы с Томита-консолью
 	/// </summary>
-    public class ProcessViewModel : ViewModelBase
+	public class ProcessViewModel : NotifyPropertyChangedBase, ISemanticModel
 	{
 		private string tomitaPath;
 		private string tomitaConfigPath;
@@ -36,7 +40,7 @@ namespace SemanticDataEnrichment.Core
 			this.tomitaOutputFileName = tomitaOutputFileName;
 			this.tomitaInputFileName = tomitaInputFileName;
 			this.rdfOutputFileName = rdfOutputFileName;
-			URL = "http:\\\\";
+			URL = "http://";
 		}
 
 		#region PublicProperties
@@ -111,6 +115,34 @@ namespace SemanticDataEnrichment.Core
             }
         }
 
+		private string processedQueryData;
+		/// <summary>
+		/// Результат запроса к итогам работы томиты и схемам
+		/// </summary>
+		public string ProcessedQueryData
+		{
+			get { return this.processedQueryData; }
+			private set
+			{
+				this.processedQueryData = value;
+				OnPropertyChanged("ProcessedQueryData");
+			}
+		}
+
+		private IEnumerable<SemanticElement> semanticElements;
+		/// <summary>
+		/// Результат запроса к итогам работы томиты и схемам в виде семантических объектов
+		/// </summary>
+		public IEnumerable<SemanticElement> SemanticElements
+		{
+			get { return this.semanticElements; }
+			private set
+			{
+				this.semanticElements = new ObservableCollection<SemanticElement>(value);
+				OnPropertyChanged("SemanticElements");
+			}
+		}
+
 		private string consoleOutput;
 		/// <summary>
 		/// Дополнительная информация, возвращаемая томитой в ходе работы (в т.ч. ошибки)
@@ -128,17 +160,14 @@ namespace SemanticDataEnrichment.Core
 			}
 		}
 
-		private bool isBusy;
-		/// <summary>
-		/// Флаг, определяющий, что выполняется какая-либо работа
-		/// </summary>
-		public bool IsBusy
+		private string semanticHTML;
+		public string SemanticHTML
 		{
-			get { return this.isBusy; }
-			set
+			get { return this.semanticHTML; }
+			private set
 			{
-				this.isBusy = value;
-				OnPropertyChanged("IsBusy");
+				this.semanticHTML = value;
+				OnPropertyChanged("SemanticHTML");
 			}
 		}
 
@@ -179,15 +208,7 @@ namespace SemanticDataEnrichment.Core
 			if (String.IsNullOrWhiteSpace(fileName))
 				throw new ArgumentNullException("FileName", "Не определно имя файла");
 
-			try
-			{
-				IsBusy = true;
-				TextData = File.ReadAllText(fileName);
-			}
-			finally
-			{
-				IsBusy = false;
-			}
+			TextData = File.ReadAllText(fileName);
 		}
 
 		/// <summary>
@@ -219,26 +240,19 @@ namespace SemanticDataEnrichment.Core
 
 			if (String.IsNullOrWhiteSpace(url))
 				throw new ArgumentNullException("URL", "Не определен URL");
-			try
+
+			WebRequest request = WebRequest.Create(url);
+			using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
 			{
-				IsBusy = true;
-				WebRequest request = WebRequest.Create(url);
-				using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
-				{
 
-					string responseText = (new StreamReader(response.GetResponseStream(), System.Text.Encoding.GetEncoding(response.CharacterSet))).ReadToEnd();
+				string responseText = (new StreamReader(response.GetResponseStream(), System.Text.Encoding.GetEncoding(response.CharacterSet))).ReadToEnd();
 
 
-					//stringstr = "<h1>Получить текст HTML C# отсюда</h1>";
-					//Regex reg = new Regex("<[^>]+>", RegexOptions.IgnoreCase);
-					//TextData = reg.Replace(responseText, "");
-					TextData = responseText;
+				//stringstr = "<h1>Получить текст HTML C# отсюда</h1>";
+				//Regex reg = new Regex("<[^>]+>", RegexOptions.IgnoreCase);
+				//TextData = reg.Replace(responseText, "");
+				TextData = responseText;
 
-				}
-			}
-			finally
-			{
-				IsBusy = false;
 			}
 		}
 
@@ -260,34 +274,50 @@ namespace SemanticDataEnrichment.Core
 			if (String.IsNullOrWhiteSpace(textData))
 				throw new ArgumentNullException("TextData", "Не задан текст для обработки");
 
-			try
-			{
-				IsBusy = true;
-				File.WriteAllText(this.tomitaInputFileName, textData);
-				if (File.Exists(this.tomitaOutputFileName))
-					File.Delete(this.tomitaOutputFileName);
-				if (File.Exists(this.rdfOutputFileName))
-					File.Delete(this.rdfOutputFileName);
+			File.WriteAllText(this.tomitaInputFileName, textData);
+			if (File.Exists(this.tomitaOutputFileName))
+				File.Delete(this.tomitaOutputFileName);
+			if (File.Exists(this.rdfOutputFileName))
+				File.Delete(this.rdfOutputFileName);
 
-				ProcessTomitaConsole(this.tomitaConfigPath);
+			ProcessTomitaConsole(this.tomitaConfigPath);
 
-				if (File.Exists(this.tomitaOutputFileName))
-				{
-					XmlRdfParser parser = new XmlRdfParser();
-					parser.ConvertXmlRdf(this.tomitaOutputFileName, this.rdfOutputFileName);
-					ProcessedXmlData = XmlRdfParser.GetFormattedStringFromXmlFile(this.tomitaOutputFileName);
-					ProcessedRdfData = XmlRdfParser.GetFormattedStringFromXmlFile(this.rdfOutputFileName);
-				}
-				else
-				{
-					ProcessedXmlData = String.Empty;
-					ProcessedRdfData = String.Empty;
-				}
-			}
-			finally
+			if (File.Exists(this.tomitaOutputFileName))
 			{
-				IsBusy = false;
+				XmlRdfParser parser = new XmlRdfParser();
+				parser.ConvertXmlRdf(this.tomitaOutputFileName, this.rdfOutputFileName);
+				ProcessedXmlData = XmlRdfParser.GetFormattedStringFromXmlFile(this.tomitaOutputFileName);
+				ProcessedRdfData = XmlRdfParser.GetFormattedStringFromXmlFile(this.rdfOutputFileName);
+				ProcessedQueryData = ExecuteFileQuery("query.txt", parser.GetBestPropertyValue("CompanyName", ProcessedRdfData));
+				SemanticElements = XmlRdfParser.ConvertRdfToSemanticElements(ProcessedQueryData);
 			}
+			else
+			{
+				ProcessedXmlData = String.Empty;
+				ProcessedRdfData = String.Empty;
+			}
+		}
+
+		public string CreateSemanticHTML()
+		{
+			if (String.IsNullOrWhiteSpace(TextData))
+				return String.Empty;
+
+			if (SemanticElements == null || !SemanticElements.Any())
+				return textData;
+
+			return CreateSemanticHTML(TextData, SemanticElements);
+		}
+
+		public string CreateSemanticHTML(string inputHTML, IEnumerable<SemanticElement> semanticElements)
+		{
+			string targetTag = "</HEAD>";
+			StringBuilder sb = new StringBuilder(targetTag);
+			foreach (var el in semanticElements)
+				sb.AppendLine(el.GetHtml());
+
+			SemanticHTML = inputHTML.Replace(targetTag, sb.ToString());
+			return SemanticHTML;
 		}
 
 		/// <summary>
@@ -343,6 +373,17 @@ namespace SemanticDataEnrichment.Core
 				else
 					throw new Exception("Не удалось инициализировать процесс томиты");
 			}
+		}
+
+		private string ExecuteFileQuery(string fileName, string param)
+		{
+			string sparqlCommandText = File.ReadAllText(fileName).Replace("{0}", param);
+
+			RdfQueryViewModel queryModel = new RdfQueryViewModel();
+			queryModel.AddRdfFile("FdoDS.rdf");
+			queryModel.AddRdfFile("schema.xml");
+			queryModel.AddRdfFile(this.rdfOutputFileName);
+			return queryModel.ExecuteQuery(sparqlCommandText);
 		}
 
 		#endregion

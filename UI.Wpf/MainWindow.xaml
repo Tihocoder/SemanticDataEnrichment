@@ -49,6 +49,12 @@
             <TabItem Header="Конвертированный RDF">
 				<TextBox VerticalScrollBarVisibility="Visible" IsReadOnly="True" TextWrapping="Wrap" AcceptsReturn="True" Text="{Binding ProcessedRdfData, Mode=OneWay}" />
             </TabItem>
+			<TabItem Header="Результат запроса">
+				<TextBox VerticalScrollBarVisibility="Visible" IsReadOnly="True" TextWrapping="Wrap" AcceptsReturn="True" Text="{Binding ProcessedQueryData, Mode=OneWay}" />
+			</TabItem>
+			<TabItem Header="Отсемантированный HTML">
+				<TextBox VerticalScrollBarVisibility="Visible" IsReadOnly="True" TextWrapping="Wrap" AcceptsReturn="True" Text="{Binding SemanticHTML, Mode=OneWay}" />
+			</TabItem>
         </TabControl>
 		<StackPanel Grid.Column="1" Grid.RowSpan="10" Margin="5,10,5,5">
 			<Button Name="ProcessButton" Content="Обработать" Padding="50,5" Margin="5,5,5,20" Click="ProcessButton_Click" />
@@ -65,10 +71,10 @@
 			</StackPanel>
 			<Button Name="ExitButton" Content="Выход" Padding="50,5" Margin="5,20,5,5" Click="ExitButton_Click" />
 		</StackPanel>
-		<Border BorderBrush="Black" BorderThickness="1" Background="#80000000" Grid.RowSpan="10" Grid.ColumnSpan="2" Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" >
+		<!--<Border BorderBrush="Black" BorderThickness="1" Background="#80000000" Grid.RowSpan="10" Grid.ColumnSpan="2" Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" >
 			<Grid>
 				<TextBlock Margin="0" TextWrapping="Wrap" Text="Обработка..." HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24" FontWeight="Bold" Foreground="#7EFFFFFF"/>
 			</Grid>
-		</Border>
+		</Border>-->
 	</Grid>
 </Window>

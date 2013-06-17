@@ -1,0 +1,23 @@
+﻿<UserControl x:Class="SemanticDataEnrichment.UI.Wpf.SemanticPropertyUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
+			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 xmlns:local="clr-namespace:SemanticDataEnrichment.UI.Wpf"
+		 	 xmlns:semantic="clr-namespace:SemanticDataEnrichment.Core.SemanticElements;assembly=SemanticDataEnrichment.Core"
+			 d:DataContext="{d:DesignInstance Type=semantic:SemanticProperty}" 
+             d:DesignHeight="50" d:DesignWidth="400" >
+	<Grid VerticalAlignment="Center">
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*"/>
+			<ColumnDefinition Width="*"/>
+			<ColumnDefinition Width="auto"/>
+		</Grid.ColumnDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="auto"/>
+		</Grid.RowDefinitions>
+		<TextBlock Grid.Column="0" Margin="5" Text="{Binding Name, Mode=OneWay}" />
+		<TextBox Grid.Column="1" Margin="5" Text="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+		<Button Name="RemoveButton" Grid.Column="2" Margin="5" Content="Удалить" Width="60" Click="RemoveButton_Click"/>
+    </Grid>
+</UserControl>

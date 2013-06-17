@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using SemanticDataEnrichment.Core.ModelComponents;
 
 namespace SemanticDataEnrichment.Core
 {
-	public class FilePath : ViewModelBase
+	public class FilePath : NotifyPropertyChangedBase
 	{
 		public FilePath()
 		{ }

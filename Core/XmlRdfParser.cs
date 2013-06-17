@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
+using SemanticDataEnrichment.Core.SemanticElements;
 
 namespace SemanticDataEnrichment.Core
 {
@@ -21,6 +22,7 @@ namespace SemanticDataEnrichment.Core
 				{"rdf", "http://www.w3.org/1999/02/22-rdf-syntax-ns#"}
 				, {"owl", "http://www.w3.org/2002/07/owl#"}
 				, {"ont", "http://www.co-ode.org/ontologies/ont.owl#"}
+				//, {"schema", "http://schema.org/"}
 			};
 		}
 
@@ -84,6 +86,27 @@ namespace SemanticDataEnrichment.Core
 			return ConvertXmlRdf(source, destFileName);
         }
 
+		/// <summary>
+		/// Выбор значения свойства, "о котором идет речь" в заданном RDF тексте
+		/// </summary>
+		/// <param name="propertyName">Имя свойства, по которому работать</param>
+		/// <param name="rdfText">RDF-текст</param>
+		/// <returns>Значение искомого свойства</returns>
+		public string GetBestPropertyValue(string propertyName, string rdfText)
+		{
+			XElement rdf = XElement.Parse(rdfText);
+			return rdf.Elements(this.namespaces["owl"] + "NamedIndividual")
+				.Where(el => el.Elements().Select(par => par.Name.LocalName).Contains(propertyName) && el.Elements(this.namespaces["ont"] + "pos").Any())
+				.GroupBy(n => n.Element(this.namespaces["ont"] + propertyName).Value)
+				.Select(o => new
+				{
+					PropertyValue = o.Key,
+					Count = o.Count(),
+					MinPos = o.Min(p => int.Parse(p.Element(this.namespaces["ont"] + "pos").Value))
+				})
+				.OrderByDescending(r => r.Count).ThenBy(e => e.MinPos).First().PropertyValue;
+		}
+
 		#endregion
 
 		#region StaticMethods
@@ -96,6 +119,20 @@ namespace SemanticDataEnrichment.Core
 		public static string GetFormattedStringFromXmlFile(string fileName)
 		{
 			return XDocument.Parse(File.ReadAllText(fileName)).ToString();
+		}
+
+		/// <summary>
+		/// Сконвертировать RDF-текст в семантические объекты
+		/// </summary>
+		/// <param name="rdfText">RDF-текст</param>
+		/// <returns>Семантические объекты</returns>
+		public static IEnumerable<SemanticElement> ConvertRdfToSemanticElements(string rdfText)
+		{
+			XElement rdf = XElement.Parse(rdfText);
+			List<SemanticElement> output = new List<SemanticElement>();
+			foreach (XElement element in rdf.Elements())
+				output.Add(GetSemanticElement(element));
+			return output;
 		}
 
 		#endregion
@@ -129,6 +166,28 @@ namespace SemanticDataEnrichment.Core
 			foreach (string namespacePrefix in this.namespaces.Keys)
 				root.Add(new XAttribute(XNamespace.Xmlns + namespacePrefix, namespaces[namespacePrefix].NamespaceName));
 			return root;
+		}
+
+		/// <summary>
+		/// Получение семантического элемента из его описателя в виде XML
+		/// </summary>
+		/// <param name="source">XML-элемент, содержащий описатель семантического элемента</param>
+		/// <returns>Объект или свойство</returns>
+		private static SemanticElement GetSemanticElement(XElement source)
+		{
+			string internalName = source.Name.LocalName;
+			if (source.HasElements)
+			{
+				SemanticObject output = new SemanticObject(internalName) { RdfNamespace = source.Name.NamespaceName.TrimEnd('/') };
+				foreach (XElement element in source.Elements())
+					output.Elements.Add(GetSemanticElement(element));
+				return output;
+			}
+			else
+			{
+				SemanticProperty output = new SemanticProperty(internalName, source.Value);
+				return output;
+			}
 		}
 
 		#endregion

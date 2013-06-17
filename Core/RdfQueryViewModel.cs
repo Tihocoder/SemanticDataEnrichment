@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using SemanticDataEnrichment.Core.ModelComponents;
 using VDS.RDF;
 using VDS.RDF.Parsing;
 using VDS.RDF.Query;
@@ -13,7 +14,7 @@ namespace SemanticDataEnrichment.Core
 	/// <summary>
 	/// Модель для отправки Sparql запросов к файлам, перечисленным в FilesToQuery
 	/// </summary>
-    public class RdfQueryViewModel : ViewModelBase
+	public class RdfQueryViewModel : NotifyPropertyChangedBase
     {
 		public RdfQueryViewModel()
 		{

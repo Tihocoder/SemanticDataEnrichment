@@ -45,10 +45,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FilePath.cs" />
+    <Compile Include="ModelComponents\NotifyPropertyChangedBase.cs" />
     <Compile Include="ProcessViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RdfQueryViewModel.cs" />
-    <Compile Include="ViewModelBase.cs" />
+    <Compile Include="SemanticElements\ISemanticModel.cs" />
+    <Compile Include="SemanticElements\SemanticElement.cs" />
+    <Compile Include="SemanticElements\SemanticObject.cs" />
+    <Compile Include="SemanticElements\SemanticProperty.cs" />
     <Compile Include="XmlRdfParser.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

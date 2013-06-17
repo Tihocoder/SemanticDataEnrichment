@@ -114,6 +114,9 @@ namespace SemanticDataEnrichment.UI.Wpf
 						WebBr.NavigateToString(File.ReadAllText(prettyOutput));
 					else
 						WebBr.Navigate("about:blank");
+
+					SemanticElementsWindow sem = new SemanticElementsWindow(CurrentContext) { Owner = this };
+					sem.Show();
 				}
 			}
 			catch (Exception ex)

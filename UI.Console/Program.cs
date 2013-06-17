@@ -26,9 +26,9 @@ namespace SemanticDataEnrichment.UI.TestConsole
 			//RdfQueryViewModel model = new RdfQueryViewModel();
 			//Console.WriteLine(model.ExecuteQuery());
 
-			//TestRDF();
+			TestRDF();
 
-			TestCount("FdoDS.rdf", "CompanyName");
+			//TestCount("FdoDS.rdf", "CompanyName");
 
             //new XMLtoRDFtest().ReadXML("FdoDS.rdf");
             //new XMLtoRDFtest().ReadRDL("TestRdf.xml");
@@ -152,35 +152,6 @@ namespace SemanticDataEnrichment.UI.TestConsole
 			XNamespace ont = "http://www.co-ode.org/ontologies/ont.owl#";
 			XElement rdf = XElement.Parse(File.ReadAllText(filename));
 
-			//var my = rdf.Elements(owl + "NamedIndividual")
-			//	.Where(el => el.Elements().Select(par => par.Name.LocalName).Contains(propertyName))
-			//	.GroupBy(n => n.Element(ont + propertyName).Value)
-			//	.Select(o => new
-			//	{
-			//		PropertyValue = o.Key,
-			//		Count = o.Count(),
-			//		MinPos = o.Elements(ont + "pos")//.Min(r => int.Parse(r.Value))//.Select(p => int.Parse(p.Value)).Min()
-			//	});
-
-			//var my = rdf.Elements(owl + "NamedIndividual")
-			//	.Where(el => el.Elements().Select(par => par.Name.LocalName).Contains(propertyName))
-			//	.Select(m => new
-			//	{
-			//		PropertyValue = m.Element(ont + propertyName).Value,
-			//		Pos = int.Parse(m.Element(ont + "pos").Value)
-			//	})
-			//	.GroupBy(n => n.PropertyValue)
-			//	.Select(o => new
-			//	{
-			//		PropertyValue = o.Key,
-			//		Count = o.Count(),
-			//		MinPos = o.Min(p => p.Pos)
-			//	});
-
-			//if (my.Count() > 0)
-			//	propertyValue = my.Where(p => p.Count == my.Max(r => r.Count)).First().PropertyValue;
-
-
 			var my = rdf.Elements(owl + "NamedIndividual")
 				.Where(el => el.Elements().Select(par => par.Name.LocalName).Contains(propertyName) && el.Elements(ont + "pos").Any())
 				.GroupBy(n => n.Element(ont + propertyName).Value)
@@ -192,28 +163,6 @@ namespace SemanticDataEnrichment.UI.TestConsole
 				})
 				.OrderByDescending(r => r.Count).ThenBy(e => e.MinPos).First().PropertyValue;
 
-			//var targetNamedIndividual = rdf.Elements(owl + "NamedIndividual")
-			//	.Where(el => el.Elements().Select(par => par.Name.LocalName).Contains(propertyName))
-			//	.Select(o => new
-			//	{
-			//		PropertyValue = o.Element(ont + propertyName).Value,
-			//		Pos = o.Element(ont + "pos")//int.Parse(o.Element(ont + "pos").Value)
-			//	});
-
-			//var byCount = targetNamedIndividual.GroupBy(n => n.PropertyValue)
-			//	.Select(o => new
-			//	{
-			//		PropertyValue = o.Key,
-			//		Count = o.Count(),
-			//		MinPos = o.Min(g => g.Pos)
-			//	});
-
-			//var byPos = targetNamedIndividual.GroupBy(n => n.Element(ont + propertyName).Value);
-
-			//var my =
-			//	from p in targetNamedIndividual
-			//	group p by p.Element(ont + propertyName).Value into r
-			//	select new { PropertyValue = r.Key, Count = r.Count(), MinPos = r.Elements(ont + "pos").Min(q => int.Parse(q.Value)) };
 		}
 	}
 }
